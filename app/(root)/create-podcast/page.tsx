@@ -34,7 +34,8 @@ import GeneratePodcast from "@/components/GeneratePodcast";
 import GenerateThumbnail from "@/components/GenerateThumbnail";
 import { Loader } from "lucide-react";
 import { Id } from "@/convex/_generated/dataModel";
-import { VoiceType } from "@/types/types";
+
+const voiceCategories = ["alloy", "shimmer", "nova", "echo", "fable", "onyx"];
 
 const formSchema = zod.object({
   podcastTitle: zod.string().min(2),
@@ -56,10 +57,8 @@ const CreatePodcast = () => {
   );
   const [audioDuration, setAudioDuration] = useState(0);
 
-  const [voiceType, setVoiceType] = useState<VoiceType>();
+  const [voiceType, setVoiceType] = useState<string | null>(null);
   const [voicePrompt, setVoicePrompt] = useState("");
-
-  const voiceCategories = ["alloy", "shimmer", "nova", "echo", "fable", "onyx"];
 
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,7 +68,7 @@ const CreatePodcast = () => {
     },
   });
 
-  const onSubmit = (values: zod.infer<typeof formSchema>) => {
+  const onSubmit = async (values: zod.infer<typeof formSchema>) => {
     console.log(values);
   };
 
@@ -107,10 +106,8 @@ const CreatePodcast = () => {
               <Label className="text-16 font-bold text-white-1">
                 Select AI Voice
               </Label>
-              <Select
-                name="AIVoice"
-                onValueChange={(value) => setVoiceType(value)}
-              >
+
+              <Select onValueChange={(value) => setVoiceType(value)}>
                 <SelectTrigger
                   className={cn(
                     "text-16 w-full border-none bg-black-1 text-gray-1"
@@ -167,7 +164,7 @@ const CreatePodcast = () => {
             <GeneratePodcast
               setAudioStorageId={setAudioStorageId}
               setAudioUrl={setAudioUrl}
-              voiceType={voiceType}
+              voiceType={voiceType!}
               audioUrl={audioUrl}
               voicePrompt={voicePrompt}
               setVoicePrompt={setVoicePrompt}
