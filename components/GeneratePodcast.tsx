@@ -50,6 +50,7 @@ const useGeneratePodcast = (props: GeneratePodcastProps) => {
       setIsGenerating(false);
       toast({
         title: "Podcast generated successfully",
+        variant: "default",
       });
     } catch (error) {
       toast({
@@ -66,7 +67,6 @@ const useGeneratePodcast = (props: GeneratePodcastProps) => {
     generatePodcast,
   };
 };
-
 
 // Generate
 const GeneratePodcast = (props: GeneratePodcastProps) => {
